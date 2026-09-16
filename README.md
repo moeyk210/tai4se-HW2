@@ -1,1 +1,15 @@
 # CSC 591 TAI4SE Homework 2
+
+## Observations
+
+CodeBERT did not consistently place clone pairs close together. Out of the five pairs, only two were placed close together; the remaining three pairs were placed very far apart. Interestingly for the latter category, the separate snippets for each pair ended up forming a cluster on opposite ends of the graph. The A snippets were in the upper left corner of the graph while the B snippets ended up on the lower right. This suggests that the embeddings might be capturing similarities between individual snippets that aren't necessarily the relationship used to create the dataset pairs.
+
+I noted that code pairs 2, 3, 5 were semantic mismatches while 1 and 4 were matches. Code snippet 2A performs a file copying operation while 2B was a kernel bootstrapper, but happened to included a similar functionality. Similar differences also applied to code pairs 3 and 5 where the code snippets had shared similar low-level operations but the overall purposes were quite different. It is possible that these similarities are what contributed to their labeling as clone pairs in the dataset.
+
+For code pair 1, I had noted that they had similar functionality with different implementation ideas while CodeBERT did not place them close to each other. This indicates that functional similarities do not necessarily result in nearby embeddings in this experiment.
+
+We did agree on code pair 4, which was for password hashing where both snippets were very similar with one of them having a more specific hashing method. What this suggests is that CodeBERT may be recognizing low-level patterns which influences the similarity of the embeddings, rather than understanding their overall purpose.
+
+This finding was further reinforced by the results of code pair 5, which had the most surprising result. Despite the two code snippets having different high-level functionalities, they were placed the closest together in the t-SNE visualization. 5A was code related to signing PDFs while 5B was meant for converting medical images into a DICOM file. But since they shared similar low-level operations, such as Java I/O and other file-processing methods, this may have led to them being labeled closer together.
+
+The clustering pattern observed may indicate that implementation details, APIs, and other low-level code details influence the embeddings. However, this experiment only examined five pairs, so these results should not be generalized to the whole dataset. Also, there are limitations with the visualization, as the original embeddings contained 768 dimensions which were then reduced to two dimensions with t-SNE for visualization. The final graph cannot represent all the information in the original embeddings. It could also have been affected by the t-SNE parameters and random initialization present with it. Therefore, these results are not a definitive measurement and a larger experiment would need to be conducted to see if these patterns can be seen across the entire dataset
